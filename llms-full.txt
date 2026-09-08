@@ -1,0 +1,186 @@
+# Fullmoon Economy — full developer reference (LLM-friendly, one page)
+
+Last updated: 2026-09-08. Canonical sources: openapi.yaml (API contract),
+fullmoon-sdk README (client), docs/policies.md (rules). If this file and those
+disagree, those win.
+
+## 1. What the platform is
+
+The Fullmoon (풀문) network — a Minecraft server network + Discord community —
+runs ONE shared currency ("원") on ONE PostgreSQL ledger. Exactly two writers
+exist: the coin-bridge Discord bot and the Minecraft plugin. Everyone else,
+including all external developers, READS through economy-api:
+
+    coin-bridge bot ──direct SQL──┐
+    MC plugin      ──direct SQL──┤→ PostgreSQL (single source of truth)
+    external bots ──HTTP GET──→ economy-api ──read-only──┘
+
+There is NO write API and there MUST BE NO second currency. Writing balances,
+minting, granting, transferring: impossible over HTTP (removed 2026-07-12;
+every non-GET returns 405 before auth). Features that need to grant coins are
+built inside the operator's bot, not by opening the API.
+
+## 2. The 3 iron rules (registration-keeping conditions)
+
+1. Never cache balances. The value changes outside your process. Read right
+   before display via getAccount().
+2. Never create your own currency/balance table. Store non-money state only
+   (minigame state, cooldowns, bot settings).
+3. Never hardcode balance numbers. Read knobs (multipliers, caps) from
+   GET /v1/config and cache ~30s.
+
+Manners: poll at 5s or slower; back off on 429; no traffic floods.
+
+## 3. Quickstart (5 minutes)
+
+1. Ask the Fullmoon Discord operators for a bearer key (name your bot). Keys
+   are 32+ random chars, unscoped — read access is the only power.
+2. Copy economyClient.js from https://github.com/Fullmoon-OSS/fullmoon-sdk
+   into your project (zero dependencies, Node 18+, ESM).
+3. Set ECONOMY_API_KEY. Default base URL: https://api.fullmoon.ink/economy
+4. First read:
+
+```js
+import { EconomyClient } from './economyClient.js';
+const eco = new EconomyClient({ key: process.env.ECONOMY_API_KEY });
+
+const acc = await eco.getAccount(userId);        // { balance, linked, mcUsername } | null
+const top = await eco.getLeaderboard(10);        // [{ rank, discordId, balance }]
+const wal = await eco.getWalletByMc('SteveMan'); // launcher-shaped, by MC username
+```
+
+Smoke check (no auth needed):
+curl -s https://api.fullmoon.ink/economy/v1/health
+→ { "ok": true, "service": "economy-api", "readOnly": true }
+
+## 4. Endpoints (all GET; base https://api.fullmoon.ink/economy)
+
+Auth: Authorization: Bearer <key> on everything except /v1/health.
+
+GET /v1/health                                   (no auth)
+  → 200 { ok, service, readOnly: true }
+
+GET /v1/accounts/{discordId}                     (discordId: 5-25 digits)
+  → 200 { ok, discordId, balance, linked, mcUsername }
+  → 404 { ok: false, error } — no account YET; accounts appear on first activity
+
+GET /v1/accounts/{discordId}/transactions?limit=10   (limit ≤ 50)
+  → 200 { ok, transactions: [{ delta, balanceAfter, reason, source, refId, createdAt }] }
+  newest first. reason is a machine code (discord.daily, casino.slots.wager,
+  economy.playtime, ...). refId is the idempotency key (nullable).
+
+GET /v1/accounts/by-mc/{username}                (username: [A-Za-z0-9_]{3,16})
+  → 200 { ok, wallet: { currency: "원", balance, updatedAt },
+          transactions: [{ delta, reason, label, balanceAfter, at }] }
+  Launcher/client shaped: resolves the most recently linked account for the
+  MC username. `label` is the Korean display label from the ledger vocabulary.
+  → 404 when nothing is linked.
+
+GET /v1/leaderboard?limit=10                     (limit ≤ 50)
+  → 200 { ok, leaderboard: [{ rank, discordId, mcUsername, balance }] }
+  positive balances only, rank starts at 1.
+
+GET /v1/config
+  → 200 { ok, config: [{ key, value, description, updatedBy, updatedAt }] }
+  Known keys: reward.multiplier, faucet.daily_cap,
+  daily.amount, daily.streak_bonus, daily.streak_max_days.
+  Read these instead of hardcoding. Cache ~30s.
+
+GET /v1/overview
+  → 200 { ok, totalSupply, accounts,
+          today: { mint, burn, casinoNet, auctionNet, dropNet, shopNet,
+                   transferTax, net },
+          bySource: [{ source, faucet, sink, net }] }
+  Same classification SQL (TX_FILTERS) as the bot's /경제현황 — numbers cannot
+  disagree with in-Discord output.
+
+GET /v1/stats/daily?days=14                      (days ≤ 90)
+  → 200 { ok, days: [{ date, mint, burn, casinoNet, auctionNet, dropNet,
+                       shopNet, net, activeAccounts }] }
+
+GET /v1/transactions/recent?limit=20             (limit ≤ 100)
+  → 200 { ok, transactions: [{ discordId, mcUsername, delta, balanceAfter,
+                               reason, source, createdAt }] }
+  Global live feed. Poll ≥ 5s.
+
+GET /v1/casino/today
+  → 200 { ok, games: [{ game, wagered, paidOut, netBurn }] }
+
+Machine-readable contract: OpenAPI 3.1 at
+https://github.com/Fullmoon-OSS/fullmoon-economy-api/blob/main/openapi.yaml
+
+## 5. Error model (client behavior contract)
+
+- 404  → business result: null / empty array. NOT an error. NOT retryable-as-failure.
+- 401  → operator problem: throw loudly (bad/revoked key). Contact operators.
+- 429  → operator-level limiting: throw; back off and retry. App: 60 req/10s
+         per key. nginx: 10 req/s per IP, burst 40.
+- 405  → you attempted a write. There is no write API. Stop.
+- 5xx  → throw loudly.
+
+The official client (economyClient.js) implements exactly this: it throws on
+401/403/429/5xx, returns null/[] on 404, and caches /v1/config for 30s.
+Single exception: getConfigValue() swallows read failures and returns the
+fallback (config is auxiliary) — use getConfigMap() when you need errors loud.
+
+## 6. Rate limits
+
+| layer | limit |
+|-------|-------|
+| app (per client key) | 60 req / 10 s (env-tunable) |
+| nginx (per IP)       | 10 req/s, burst 40 |
+
+Normal bot traffic never hits these. If you do, you are loop-polling — back
+off, and ask the operator for a raise if you genuinely need more.
+
+## 7. Registering an integration (the "plugin market")
+
+The catalog lives at https://market.fullmoon.ink and renders the registry JSON
+from the SDK repo live — a merged PR appears on the site with no redeploy.
+
+1. Check the 3 iron rules (section 2) — they are keeping conditions.
+2. Add an entry to
+   https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/registry/integrations.json
+   following
+   https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/registry/integrations.schema.json
+
+   Entry shape:
+   {
+     "name": "My Bot",                        // 1..40 chars
+     "type": "bot",                           // bot|dashboard|tool|client
+     "description": "한 줄 소개 — 무엇을 보여주는지",  // 5..120 chars, haeyo-che
+     "url": "https://invite-or-site-or-repo", // https only
+     "author": "handle",                      // 1..40 chars
+     "addedAt": "2026-09-08",                 // real calendar date
+     "verified": false                        // ALWAYS false in a registration PR
+   }
+
+3. `npm run validate:registry` must pass (CI runs the same check).
+4. Open the PR. The operator reviews, merges, flips `verified` to true after
+   checking real traffic and rule compliance.
+
+Rejections: own balance fields outside the ledger, polling under 5s, ignoring
+429, spam links, impersonation.
+
+## 8. Key lifecycle
+
+- Issue: tell the operators your bot's name; they generate a 32+ char random
+  key (node -e "console.log(require('crypto').randomBytes(24).toString('base64url'))")
+  and register it in ECONOMY_API_CLIENTS.
+- Rotate: report suspected leaks immediately; the operator swaps the key
+  (brief downtime possible).
+- Revoke: when you retire the integration, the key is removed.
+
+## 9. Security
+
+Found a vulnerability? Do NOT open a public issue. Contact the Fullmoon
+Discord operators directly.
+
+## 10. Repo map
+
+- https://github.com/Fullmoon-OSS/fullmoon-sdk — official client + examples + registry (MIT)
+- https://github.com/Fullmoon-OSS/fullmoon-economy-api — API server source (MIT); src/vocabulary/ is a synced copy of the operator bot's ledger vocabulary — edit the bot first, sync byte-for-byte
+- https://github.com/Fullmoon-OSS/fullmoon-market — this site (MIT)
+- https://github.com/Fullmoon-OSS/fullmoon-docs — guides + policies (MIT)
+- https://github.com/RedHatOnTop/fullmoon-client — Minecraft client (GPL-3.0)
+- Public API: https://api.fullmoon.ink/economy — community site: https://fullmoon.ink

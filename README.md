@@ -47,6 +47,20 @@ http://127.0.0.1:8080/?registry=http://127.0.0.1:8080/test-registry.json
 폰트(Hahmlet, IBM Plex Sans KR, IBM Plex Mono)는 SIL OFL 1.1이에요. 라이선스
 전문과 저작권 고지는 `assets/fonts/`의 `OFL-*.txt`와 함께 배포해요.
 
+## LLM·에이전트용 문서
+
+사이트 루트에서 LLM용 문서를 서빙해요:
+
+- [`/llms.txt`](https://market.fullmoon.ink/llms.txt) — 문서·데이터 링크 맵
+  (llmstxt.org 관련)
+- [`/llms-full.txt`](https://market.fullmoon.ink/llms-full.txt) — 플랫폼 전체를
+  한 페이지로: 퀵스타트, 모든 엔드포인트 응답 형태, 에러 모델, 등록 절차
+
+사람·LLM 공용 기계 명세는 fullmoon-economy-api의
+[`openapi.yaml`](https://github.com/Fullmoon-OSS/fullmoon-economy-api/blob/main/openapi.yaml)과
+fullmoon-sdk의 [`integrations.schema.json`](https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/registry/integrations.schema.json)이에요.
+각 레포의 `AGENTS.md`가 에이전트 기여자용 불변식을 요약해요.
+
 ## 등록
 
 이 사이트에 직접 등록하지는 않아요. 등록 절차는

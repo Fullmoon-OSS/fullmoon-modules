@@ -1,0 +1,34 @@
+# Fullmoon Economy — developer platform
+
+> The Fullmoon (풀문) Minecraft + Discord network runs ONE shared economy: a
+> PostgreSQL ledger written only by the operator bot and the MC plugin, and
+> read by everyone else through a read-only HTTP API. External developers build
+> bots, dashboards and clients on top of a zero-dependency JS SDK. There is no
+> write API and no second currency — integrations that cache balances, keep
+> their own money tables, or hardcode balance numbers are rejected.
+
+## Docs
+
+- [Getting started (5 min)](https://github.com/Fullmoon-OSS/fullmoon-docs/blob/main/docs/getting-started.md): key request → copy the client → first read. The shortest path to a working integration.
+- [Policies](https://github.com/Fullmoon-OSS/fullmoon-docs/blob/main/docs/policies.md): why the API is read-only (2026-07-12 decision), the 3 iron rules, key issuance/revocation, rate limits, security contact.
+- [OpenAPI 3.1 spec](https://github.com/Fullmoon-OSS/fullmoon-economy-api/blob/main/openapi.yaml): machine-readable contract for every endpoint, response shape, and error semantics. Authoritative.
+- [SDK client (single file)](https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/economyClient.js): zero-dependency, Node 18+, ESM. Copy-paste it; this one file is the whole SDK.
+- [SDK README](https://github.com/Fullmoon-OSS/fullmoon-sdk): usage, 3 iron rules, exception model, examples.
+- [API server source](https://github.com/Fullmoon-OSS/fullmoon-economy-api): the read-only server (src/server.js is the authoritative implementation).
+
+## Data
+
+- [Integration catalog JSON](https://raw.githubusercontent.com/Fullmoon-OSS/fullmoon-sdk/main/registry/integrations.json): the data this market site renders live — merged registration PRs appear here with no redeploy.
+- [Registry JSON Schema](https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/registry/integrations.schema.json): contract for catalog entries (validate before opening a PR).
+- [INTEGRATIONS.md](https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/INTEGRATIONS.md): how to register an integration (fork → add entry → validate → PR).
+
+## Optional
+
+- [Full doc on one page](https://market.fullmoon.ink/llms-full.txt): quickstart, every endpoint with response shapes, error model, rate limits, registration flow — the whole platform as one plain-text file.
+
+## Base facts
+
+- Public API base: `https://api.fullmoon.ink/economy` (GET only; non-GET → 405 `Allow: GET` before auth).
+- Auth: `Authorization: Bearer <key>` (except `/v1/health`). Keys are unscoped — read access is the only power.
+- Errors: 401/429/5xx throw-worthy operator problems; 404 = business result (no account yet).
+- Rate limits: app 60 req/10s per key; nginx 10 req/s per IP (burst 40). Poll ≥ 5s.

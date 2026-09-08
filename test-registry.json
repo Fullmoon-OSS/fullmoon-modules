@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "integrations": [
+    {
+      "name": "달빛 봇",
+      "type": "bot",
+      "description": "풀문 네트워크의 대표 봇이에요. /잔액 /랭킹 커맨드를 제공해요.",
+      "url": "https://fullmoon.ink/",
+      "author": "personnya",
+      "addedAt": "2026-09-08",
+      "verified": true
+    },
+    {
+      "name": "경제 대시보드",
+      "type": "dashboard",
+      "description": "총공급량·일별 mint/burn·카지노 순소각을 그래프로 보여줘요.",
+      "url": "https://play.fullmoon.ink/",
+      "author": "personnya",
+      "addedAt": "2026-09-08",
+      "verified": false
+    },
+    {
+      "name": "월렛 런처",
+      "type": "client",
+      "description": "마인크래프트 클라이언트에서 MC 사용자명으로 잔액을 보여줘요.",
+      "url": "https://github.com/RedHatOnTop/fullmoon-client",
+      "author": "personnya",
+      "addedAt": "2026-09-08",
+      "verified": false
+    }
+  ]
+}
