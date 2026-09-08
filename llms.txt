@@ -20,7 +20,7 @@
 
 - [Module catalog JSON](https://raw.githubusercontent.com/Fullmoon-OSS/fullmoon-sdk/main/registry/modules.json): the data this module site renders live — merged registration PRs appear here with no redeploy.
 - [Registry JSON Schema](https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/registry/modules.schema.json): contract for catalog entries (validate before opening a PR).
-- [MODULES.md](https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/MODULES.md): how to register an integration (fork → add entry → validate → PR).
+- [MODULES.md](https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/MODULES.md): how to register a community module (fork → add entry → validate → PR).
 
 ## Optional
 

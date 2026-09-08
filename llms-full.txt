@@ -133,7 +133,7 @@ fallback (config is auxiliary) — use getConfigMap() when you need errors loud.
 Normal bot traffic never hits these. If you do, you are loop-polling — back
 off, and ask the operator for a raise if you genuinely need more.
 
-## 7. Registering an integration (the community module catalog)
+## 7. Registering a community module
 
 The catalog lives at https://modules.fullmoon.ink and renders the registry JSON
 from the SDK repo live — a merged PR appears on the site with no redeploy.
