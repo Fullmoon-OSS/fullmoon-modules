@@ -4,7 +4,7 @@
 > PostgreSQL ledger written only by the operator bot and the MC plugin, and
 > read by everyone else through a read-only HTTP API. External developers build
 > bots, dashboards and clients on top of a zero-dependency JS SDK. There is no
-> write API and no second currency — integrations that cache balances, keep
+> write API and no second currency — modules that cache balances, keep
 > their own money tables, or hardcode balance numbers are rejected.
 
 ## Docs
@@ -18,13 +18,13 @@
 
 ## Data
 
-- [Integration catalog JSON](https://raw.githubusercontent.com/Fullmoon-OSS/fullmoon-sdk/main/registry/integrations.json): the data this market site renders live — merged registration PRs appear here with no redeploy.
-- [Registry JSON Schema](https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/registry/integrations.schema.json): contract for catalog entries (validate before opening a PR).
-- [INTEGRATIONS.md](https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/INTEGRATIONS.md): how to register an integration (fork → add entry → validate → PR).
+- [Module catalog JSON](https://raw.githubusercontent.com/Fullmoon-OSS/fullmoon-sdk/main/registry/modules.json): the data this module site renders live — merged registration PRs appear here with no redeploy.
+- [Registry JSON Schema](https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/registry/modules.schema.json): contract for catalog entries (validate before opening a PR).
+- [MODULES.md](https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/MODULES.md): how to register an integration (fork → add entry → validate → PR).
 
 ## Optional
 
-- [Full doc on one page](https://market.fullmoon.ink/llms-full.txt): quickstart, every endpoint with response shapes, error model, rate limits, registration flow — the whole platform as one plain-text file.
+- [Full doc on one page](https://modules.fullmoon.ink/llms-full.txt): quickstart, every endpoint with response shapes, error model, rate limits, registration flow — the whole platform as one plain-text file.
 
 ## Base facts
 

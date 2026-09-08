@@ -133,16 +133,16 @@ fallback (config is auxiliary) — use getConfigMap() when you need errors loud.
 Normal bot traffic never hits these. If you do, you are loop-polling — back
 off, and ask the operator for a raise if you genuinely need more.
 
-## 7. Registering an integration (the "plugin market")
+## 7. Registering an integration (the community module catalog)
 
-The catalog lives at https://market.fullmoon.ink and renders the registry JSON
+The catalog lives at https://modules.fullmoon.ink and renders the registry JSON
 from the SDK repo live — a merged PR appears on the site with no redeploy.
 
 1. Check the 3 iron rules (section 2) — they are keeping conditions.
 2. Add an entry to
-   https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/registry/integrations.json
+   https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/registry/modules.json
    following
-   https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/registry/integrations.schema.json
+   https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/registry/modules.schema.json
 
    Entry shape:
    {
@@ -180,7 +180,7 @@ Discord operators directly.
 
 - https://github.com/Fullmoon-OSS/fullmoon-sdk — official client + examples + registry (MIT)
 - https://github.com/Fullmoon-OSS/fullmoon-economy-api — API server source (MIT); src/vocabulary/ is a synced copy of the operator bot's ledger vocabulary — edit the bot first, sync byte-for-byte
-- https://github.com/Fullmoon-OSS/fullmoon-market — this site (MIT)
+- https://github.com/Fullmoon-OSS/fullmoon-modules — this site (MIT)
 - https://github.com/Fullmoon-OSS/fullmoon-docs — guides + policies (MIT)
 - https://github.com/RedHatOnTop/fullmoon-client — Minecraft client (GPL-3.0)
 - Public API: https://api.fullmoon.ink/economy — community site: https://fullmoon.ink

@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>풀문 마켓 ║ Full Moon Market — 풀문 경제 위에 만든 통합들</title>
-<meta name="description" content="풀문(Fullmoon) 네트워크의 공유 경제 API 위에 만들어진 봇·대시보드·도구들의 공식 카탈로그예요. 자기 화폐를 만들지 않고 같은 원장을 함께 읽는 통합들을 등록하고 찾아가세요.">
+<title>풀문 모듈 ║ Full Moon Modules — 풀문 경제 위에 만든 모듈들</title>
+<meta name="description" content="풀문(Fullmoon) 네트워크의 공유 경제 API 위에 만들어진 봇·대시보드·도구들의 공식 카탈로그예요. 자기 화폐를 만들지 않고 같은 원장을 함께 읽는 모듈들을 등록하고 찾아가세요.">
 <meta name="color-scheme" content="dark">
-<link rel="canonical" href="https://market.fullmoon.ink/">
-<meta property="og:title" content="풀문 마켓 ║ Full Moon Market — 풀문 경제 위에 만든 통합들">
+<link rel="canonical" href="https://modules.fullmoon.ink/">
+<meta property="og:title" content="풀문 모듈 ║ Full Moon Modules — 풀문 경제 위에 만든 모듈들">
 <meta property="og:description" content="풀문 공유 경제 API 위에 만들어진 봇·대시보드·도구들의 공식 카탈로그예요. PR 한 장으로 등록할 수 있어요.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://market.fullmoon.ink/">
+<meta property="og:url" content="https://modules.fullmoon.ink/">
 <meta property="og:image" content="https://fullmoon.ink/assets/img/og-banner.png">
 <meta name="theme-color" content="#0d1226">
 <link rel="icon" type="image/png" href="assets/img/guild-icon.png">
@@ -19,8 +19,8 @@
 <link rel="preload" href="assets/fonts/plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/fonts.css">
-<link rel="stylesheet" href="assets/css/market.css">
-<script src="assets/js/market.js" defer></script>
+<link rel="stylesheet" href="assets/css/modules.css">
+<script src="assets/js/modules.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">본문으로 건너뛰기</a>
@@ -36,7 +36,7 @@
         <circle cx="23" cy="9.5" r="1.5" fill="var(--color-moon-mare)"/>
       </svg>
       <span class="brand__name">풀문</span>
-      <span class="brand__latin">Market</span>
+      <span class="brand__latin">Modules</span>
     </a>
     <div class="nav__links">
       <a class="nav__link" href="https://github.com/Fullmoon-OSS/fullmoon-sdk">SDK</a>
@@ -44,26 +44,26 @@
       <a class="nav__link" href="https://github.com/Fullmoon-OSS/fullmoon-docs">가이드</a>
     </div>
     <div class="nav__end">
-      <a class="nav__cta" href="https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/INTEGRATIONS.md">등록하기</a>
+      <a class="nav__cta" href="https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/MODULES.md">등록하기</a>
     </div>
   </nav>
 </header>
 
 <main id="main">
   <section class="hero" aria-labelledby="hero-title">
-    <h1 class="hero__display" id="hero-title">풀문 경제 위에<br>만든 통합들이에요</h1>
+    <h1 class="hero__display" id="hero-title">풀문 경제 위에<br>만든 모듈들이에요</h1>
     <p class="hero__lede">
-      풀문의 공유 경제 API는 읽기 전용이에요. 그래서 이곳의 통합들은 각자 화폐를
+      풀문의 공유 경제 API는 읽기 전용이에요. 그래서 이곳의 모듈들은 각자 화폐를
       만들지 않고, 같은 원장을 같은 정의로 읽어요. 당신의 봇도 등록할 수 있어요 —
       PR 한 장이면 충분해요.
     </p>
-    <a class="chip" href="https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/INTEGRATIONS.md">
+    <a class="chip" href="https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/MODULES.md">
       <span class="chip__label">등록 절차</span>
-      <span class="chip__addr">Fullmoon-OSS/fullmoon-sdk · INTEGRATIONS.md</span>
+      <span class="chip__addr">Fullmoon-OSS/fullmoon-sdk · MODULES.md</span>
     </a>
   </section>
 
-  <section class="board" aria-label="통합 카탈로그">
+  <section class="board" aria-label="모듈 카탈로그">
     <div class="board__head">
       <h2 class="board__title">카탈로그</h2>
       <p class="board__count" id="count" aria-live="polite"></p>
@@ -71,12 +71,12 @@
     <div class="filters" id="filters" role="group" aria-label="유형 필터"></div>
     <div class="grid" id="grid">
       <p class="state" id="loading">카탈로그를 불러오는 중이에요…</p>
-      <noscript><style>#loading{display:none}</style><p class="state">이 카탈로그는 JavaScript로 목록을 그려요. 브라우저에서 허용해 주세요. 목록 원본은 <a href="https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/registry/integrations.json">registry/integrations.json</a>에 있어요.</p></noscript>
+      <noscript><style>#loading{display:none}</style><p class="state">이 카탈로그는 JavaScript로 목록을 그려요. 브라우저에서 허용해 주세요. 목록 원본은 <a href="https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/registry/modules.json">registry/modules.json</a>에 있어요.</p></noscript>
     </div>
     <div class="state state--hidden" id="error" role="alert">
       <p>카탈로그를 불러오지 못했어요. 잠시 후 다시 시도해 주세요.</p>
       <p><button class="retry" id="retry" type="button">다시 시도</button>
-         <a class="retry" href="https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/registry/integrations.json">원본 JSON 보기</a></p>
+         <a class="retry" href="https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/registry/modules.json">원본 JSON 보기</a></p>
     </div>
   </section>
 
@@ -84,7 +84,7 @@
     <h2 class="howto__title" id="howto-title">등록은 이렇게 해요</h2>
     <ol class="howto__steps">
       <li><span class="step__n"></span><div class="step__body"><strong>3가지 철칙을 확인해요</strong> — 잔액 캐시 금지, 자체 화폐 금지, 숫자 하드코딩 금지. 유지 조건이에요.</div></li>
-      <li><span class="step__n"></span><div class="step__body"><strong>레지스트리에 항목을 추가해요</strong> — <code>registry/integrations.json</code>에 이름·유형·소개·링크를 넣어요.</div></li>
+      <li><span class="step__n"></span><div class="step__body"><strong>레지스트리에 항목을 추가해요</strong> — <code>registry/modules.json</code>에 이름·유형·소개·링크를 넣어요.</div></li>
       <li><span class="step__n"></span><div class="step__body"><strong>PR을 보내요</strong> — <code>npm run validate:registry</code>가 통과하면 운영자가 확인해서 병합해요. 병합되면 이 페이지에 바로 반영돼요.</div></li>
     </ol>
   </section>

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "integrations": [
+  "modules": [
     {
       "name": "달빛 봇",
       "type": "bot",
