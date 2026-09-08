@@ -11,10 +11,19 @@
 (() => {
   'use strict';
 
-  // Data source can be overridden with ?registry=<url> for local testing;
-  // production always uses the SDK repo's registry.
+  // Data source can be overridden with ?registry=<url> for local testing,
+  // but ONLY same-origin values: a cross-origin override would let a crafted
+  // link render an attacker's fake catalog on this trusted domain (phishing
+  // under the official site), so those are ignored. Production always uses
+  // the SDK repo's registry.
+  let overrideUrl = null;
+  try {
+    const requested = new URLSearchParams(location.search).get('registry');
+    const resolved = new URL(requested ?? '', location.href);
+    if (requested && resolved.origin === location.origin) overrideUrl = resolved.href;
+  } catch { /* garbage query value -> fall through to production registry */ }
   const REGISTRY_URL =
-    new URLSearchParams(location.search).get('registry') ||
+    overrideUrl ??
     'https://raw.githubusercontent.com/Fullmoon-OSS/fullmoon-sdk/main/registry/integrations.json';
 
   const TYPES = {

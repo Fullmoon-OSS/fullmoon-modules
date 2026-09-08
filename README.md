@@ -30,7 +30,9 @@ python3 -m http.server 8080
 # http://127.0.0.1:8080
 ```
 
-다른 레지스트리로 테스트하려면 `?registry=`로 URL을 갈아끼울 수 있어요:
+다른 레지스트리로 테스트하려면 `?registry=`로 갈아끼울 수 있어요. 단 **같은
+오리진의 URL만** 받아요 — 원격 URL은 무시돼요(공식 도메인 위에 가짜 카탈로그를
+그리는 피싱을 막기 위해서예요):
 
 ```
 http://127.0.0.1:8080/?registry=http://127.0.0.1:8080/test-registry.json
@@ -42,7 +44,8 @@ http://127.0.0.1:8080/?registry=http://127.0.0.1:8080/test-registry.json
 `assets/css/tokens.css`는 dalbit-web의 잠금 토큰 시트를 그대로 쓰고, 이 사이트는
 토큰 조합만 해요. 새 색은 추가하지 않아요.
 
-폰트(Hahmlet, IBM Plex Sans KR, IBM Plex Mono)는 SIL OFL이에요.
+폰트(Hahmlet, IBM Plex Sans KR, IBM Plex Mono)는 SIL OFL 1.1이에요. 라이선스
+전문과 저작권 고지는 `assets/fonts/`의 `OFL-*.txt`와 함께 배포해요.
 
 ## 등록
 
