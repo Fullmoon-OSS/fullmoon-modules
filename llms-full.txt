@@ -150,6 +150,7 @@ from the SDK repo live — a merged PR appears on the site with no redeploy.
      "type": "bot",                           // bot|dashboard|tool|client
      "description": "한 줄 소개 — 무엇을 보여주는지",  // 5..120 chars, haeyo-che
      "url": "https://invite-or-site-or-repo", // https only
+     "source": "https://github.com/you/your-module",  // optional, strongly recommended for bots/tools
      "author": "handle",                      // 1..40 chars
      "addedAt": "2026-09-08",                 // real calendar date
      "verified": false                        // ALWAYS false in a registration PR

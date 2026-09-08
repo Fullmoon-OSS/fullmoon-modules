@@ -130,6 +130,10 @@
 
   async function load() {
     errorEl.classList.add('state--hidden');
+    // The loading state is rendered here, not in the static HTML: the CSP is
+    // style-src 'self' (no inline styles), so a <noscript><style> hack to hide
+    // a static loading line is off the table — JS draws its own spinner text.
+    grid.innerHTML = '<p class="state">카탈로그를 불러오는 중이에요…</p>';
     // cache-bust: raw.githubusercontent serves with a short cache; a fresh
     // query string keeps the catalog honest across repeat visits.
     const bust = REGISTRY_URL + '?t=' + Date.now();
