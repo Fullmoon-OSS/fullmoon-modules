@@ -156,9 +156,15 @@ from the SDK repo live — a merged PR appears on the site with no redeploy.
      "verified": false                        // ALWAYS false in a registration PR
    }
 
-3. `npm run validate:registry` must pass (CI runs the same check).
-4. Open the PR. The operator reviews, merges, flips `verified` to true after
-   checking real traffic and rule compliance.
+Two ways to submit — pick whichever is easier:
+
+- **No git needed**: open a registration issue at
+  https://github.com/Fullmoon-OSS/fullmoon-sdk/issues/new?template=module-registration.yml
+  with the fields below; the operator adds the entry for you.
+- **PR**: fork fullmoon-sdk, add the entry to registry/modules.json
+  (CI validates it), open the PR.
+
+   Entry shape:
 
 Rejections: own balance fields outside the ledger, polling under 5s, ignoring
 429, spam links, impersonation.
