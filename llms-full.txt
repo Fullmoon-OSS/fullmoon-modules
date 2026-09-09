@@ -144,7 +144,6 @@ from the SDK repo live — a merged PR appears on the site with no redeploy.
    following
    https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/registry/modules.schema.json
 
-   Entry shape:
    {
      "name": "My Bot",                        // 1..40 chars
      "type": "bot",                           // bot|dashboard|tool|client
@@ -160,11 +159,10 @@ Two ways to submit — pick whichever is easier:
 
 - **No git needed**: open a registration issue at
   https://github.com/Fullmoon-OSS/fullmoon-sdk/issues/new?template=module-registration.yml
-  with the fields below; the operator adds the entry for you.
+  with the fields above; the operator adds the entry for you.
 - **PR**: fork fullmoon-sdk, add the entry to registry/modules.json
   (CI validates it), open the PR.
 
-   Entry shape:
 
 Rejections: own balance fields outside the ledger, polling under 5s, ignoring
 429, spam links, impersonation.
