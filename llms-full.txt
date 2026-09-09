@@ -61,13 +61,15 @@ GET /v1/health                                   (no auth)
   → 200 { ok, service, readOnly: true }
 
 GET /v1/accounts/{discordId}                     (discordId: 5-25 digits)
-  → 200 { ok, discordId, balance, linked, mcUsername }
+  → 200 { ok, discordId, balance, linked, mcUsername, rank }
+  rank = ledger ranking by balance (1 = richest), null while the balance is 0.
   → 404 { ok: false, error } — no account YET; accounts appear on first activity
 
-GET /v1/accounts/{discordId}/transactions?limit=10   (limit ≤ 50)
-  → 200 { ok, transactions: [{ delta, balanceAfter, reason, source, refId, createdAt }] }
-  newest first. reason is a machine code (discord.daily, casino.slots.wager,
-  economy.playtime, ...). refId is the idempotency key (nullable).
+GET /v1/accounts/{discordId}/transactions?limit=10&before=<id>   (limit ≤ 50)
+  → 200 { ok, transactions: [{ id, delta, balanceAfter, reason, source, refId,
+                               createdAt }], nextBefore }
+  newest first. Pass nextBefore as ?before to page backwards (CSV export,
+  audit tools). nextBefore is null on the last page.
 
 GET /v1/accounts/by-mc/{username}                (username: [A-Za-z0-9_]{3,16})
   → 200 { ok, wallet: { currency: "원", balance, updatedAt },
@@ -105,6 +107,19 @@ GET /v1/transactions/recent?limit=20             (limit ≤ 100)
 
 GET /v1/casino/today
   → 200 { ok, games: [{ game, wagered, paidOut, netBurn }] }
+
+GET /v1/events
+  → 200 { ok, events: [{ name, kind, multiplier, startsAt, endsAt }] }
+  Currently active events (endsAt null = runs until deactivated). Written by
+  the operator only - timer bots just poll this.
+
+GET /v1/guilds
+  → 200 { ok, guilds: [{ name, fund, members }] }
+  Guild list by fund balance (fund is metadata, not circulating supply).
+
+GET /v1/casino/history?days=30                    (days ≤ 90)
+  → 200 { ok, days: [{ date, wagered, paidOut, netBurn }] }
+  Per-day casino burn history. netBurn >= 0 = healthy (value destroyed).
 
 Machine-readable contract: OpenAPI 3.1 at
 https://github.com/Fullmoon-OSS/fullmoon-economy-api/blob/main/openapi.yaml
@@ -144,6 +159,7 @@ from the SDK repo live — a merged PR appears on the site with no redeploy.
    following
    https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/registry/modules.schema.json
 
+   Entry shape:
    {
      "name": "My Bot",                        // 1..40 chars
      "type": "bot",                           // bot|dashboard|tool|client
@@ -159,10 +175,11 @@ Two ways to submit — pick whichever is easier:
 
 - **No git needed**: open a registration issue at
   https://github.com/Fullmoon-OSS/fullmoon-sdk/issues/new?template=module-registration.yml
-  with the fields above; the operator adds the entry for you.
+  with the fields below; the operator adds the entry for you.
 - **PR**: fork fullmoon-sdk, add the entry to registry/modules.json
   (CI validates it), open the PR.
 
+   Entry shape:
 
 Rejections: own balance fields outside the ledger, polling under 5s, ignoring
 429, spam links, impersonation.
