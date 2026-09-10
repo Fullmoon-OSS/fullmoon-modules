@@ -204,7 +204,7 @@ Discord operators directly.
 - https://github.com/Fullmoon-OSS/fullmoon-economy-api — API server source (MIT); src/vocabulary/ is a synced copy of the operator bot's ledger vocabulary — edit the bot first, sync byte-for-byte
 - https://github.com/Fullmoon-OSS/fullmoon-modules — this site (MIT)
 - https://github.com/Fullmoon-OSS/fullmoon-docs — guides + policies (MIT)
-- https://github.com/RedHatOnTop/fullmoon-client — Minecraft client (GPL-3.0)
+- https://github.com/Fullmoon-OSS/fullmoon-client — Minecraft client (GPL-3.0)
 - Public API: https://api.fullmoon.ink/economy — community site: https://fullmoon.ink
 
 ## 11. Bot modules (run code inside the Fullmoon bot)
