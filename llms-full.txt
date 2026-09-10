@@ -206,3 +206,11 @@ Discord operators directly.
 - https://github.com/Fullmoon-OSS/fullmoon-docs — guides + policies (MIT)
 - https://github.com/RedHatOnTop/fullmoon-client — Minecraft client (GPL-3.0)
 - Public API: https://api.fullmoon.ink/economy — community site: https://fullmoon.ink
+
+## 11. Bot modules (run code inside the Fullmoon bot)
+
+Beyond the HTTP API, the Fullmoon Discord bot itself runs operator-reviewed community modules. A module is one .mjs file with three exports — meta (author/version), command (slash-command name/description/options), execute(interaction, ctx) — plus optional hooks: onButton(interaction, ctx) for button clicks (customIds via ctx.componentId, namespaced cm:<command>:<action>) and schedules = [{ everyMinutes >= 5, run(tools) }] for periodic jobs (max 2/module, 16 bot-wide).
+
+ctx.economy exposes the same audited read-only ledger queries as this API — wallet (balance + rank), transactions (before-cursor pages), leaderboard, events, guilds, casinoToday, casinoHistory — clamped and parameterized, SELECT-only. tools.send (schedules) is text-channel-only, 2000-char capped, user-mentions-only. There is no write path anywhere in the module surface; a feature that needs a ledger write is a bot/operator feature, not a module.
+
+Trust model: modules run in-process, so the operator's line-by-line review is the security boundary. Broken or out-of-contract modules are skipped at load and can never take the bot down. Guide: https://modules.fullmoon.ink/guide.html — contract: https://github.com/Fullmoon-OSS/coin-bridge-modules/blob/main/MODULE_API.md — submit: PR or issue at https://github.com/Fullmoon-OSS/coin-bridge-modules.

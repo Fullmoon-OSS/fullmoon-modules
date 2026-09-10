@@ -125,7 +125,9 @@ export async function execute(interaction, ctx) {
       <pre><code>export async function execute(interaction, ctx) {
   const w = await ctx.economy.wallet();
   if (!w) return ctx.reply('먼저 /연동코드로 계정을 만들어 주세요.');
-  await ctx.reply(`**${ctx.user.displayName}님** — ${w.balance.toLocaleString('ko-KR')}원 (서버 ${w.rank}위)`);
+  // 잔액 0이면 rank가 null이에요 — 서버 순위는 잔액이 있을 때만 표시.
+  const rank = w.rank ? ` (서버 ${w.rank}위)` : '';
+  await ctx.reply(`**${ctx.user.displayName}님** — ${w.balance.toLocaleString('ko-KR')}원${rank}`);
 }</code></pre>
     </figure>
     <div class="g-tablewrap">
@@ -214,6 +216,9 @@ export async function onButton(interaction, ctx) {
     <p class="g-lede">대부분은 로더와 심사가 막아주지만, 처음부터 알면 수정 없이 통과해요.</p>
     <div class="g-tablewrap">
       <table class="g-table">
+        <thead class="sr-only">
+          <tr><th scope="col">규칙</th><th scope="col">설명</th></tr>
+        </thead>
         <tbody>
           <tr><td>import는 <code>discord.js</code>와 <code>node:</code> 빌트인만</td><td>서드파티 패키지는 거절돼요</td></tr>
           <tr><td><code>eval</code>·<code>new Function</code>·동적 <code>import(변수)</code> 금지</td><td>난독화·minified 코드도 마찬가지예요</td></tr>

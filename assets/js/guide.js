@@ -38,8 +38,10 @@
       }
     });
 
-    pre.style.position = 'relative';
-    pre.appendChild(button);
+    // 버튼은 스크롤 컨테이너(pre)가 아니라 figure에 붙인다 — pre 안에 두면
+    // 가로 스크롤할 때 버튼이 코드와 함께 밀려나 보이지 않는다.
+    const host = pre.closest('figure.g-code') || pre;
+    host.appendChild(button);
   }
 
   function init() {
