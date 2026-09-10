@@ -414,3 +414,11 @@ code, .mono {
   * { transition-duration: 0.01ms !important; }
   .card:hover, .card:focus-within { transform: none; }
 }
+
+/* ── 히어로 아래 칩 묶음 (홈·가이드 공용) ──────────────────── */
+.g-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--rhythm) * 0.6);
+  margin-top: var(--rhythm);
+}

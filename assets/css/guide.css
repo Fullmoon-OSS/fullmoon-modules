@@ -1,0 +1,151 @@
+/* guide.css — 봇 모듈 가이드 페이지 전용 스타일. modules.css의 토큰과 골격
+ * 클래스(nav/hero/howto/chip/foot)를 재사용하고, 코드 블록·표·카드만 추가한다.
+ * CSP(style-src 'self') 때문에 인라인 스타일은 없다 — 전부 이 파일. */
+
+/* ── 섹션 리듬 ─────────────────────────────────────────────── */
+.g-section {
+  max-width: var(--measure);
+  margin: var(--rhythm) auto 0;
+  padding: 0 var(--page-gutter);
+}
+.g-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3.4vw, 2.1rem);
+  line-height: var(--leading-tight);
+  margin: 0 0 var(--rhythm);
+}
+.g-sub {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  margin: calc(var(--rhythm) * 1.4) 0 calc(var(--rhythm) * 0.5);
+}
+.g-lede {
+  color: var(--color-ink-2);
+  max-width: var(--measure-narrow);
+  margin: 0 0 var(--rhythm);
+}
+.g-lede + .g-code { margin-top: var(--rhythm); }
+.g-note {
+  font-size: 0.92em;
+  color: var(--color-muted);
+  border-left: 2px solid var(--color-rule);
+  padding-left: 0.9em;
+  margin: var(--rhythm) 0 0;
+}
+
+/* ── 히어로 아래 칩 묶음 (modules.css의 .g-chips 공용 규칙과 동일) ── */
+.g-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--rhythm) * 0.6);
+  margin-top: var(--rhythm);
+}
+
+/* ── 능력 카드 ─────────────────────────────────────────────── */
+.g-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: calc(var(--rhythm) * 0.75);
+}
+.g-card {
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-md);
+  background: var(--color-paper-2);
+  padding: calc(var(--rhythm) * 0.9);
+}
+.g-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  margin: 0 0 0.4em;
+}
+.g-card p {
+  margin: 0;
+  color: var(--color-ink-2);
+  font-size: 0.94em;
+  line-height: var(--leading-body);
+}
+
+/* ── 코드 블록 ─────────────────────────────────────────────── */
+.g-code {
+  margin: 0 0 var(--rhythm);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-md);
+  background: var(--color-paper-3);
+  overflow: hidden;
+}
+.g-code figcaption {
+  font-family: var(--font-mono);
+  font-size: 0.78em;
+  color: var(--color-muted);
+  padding: 0.55em 1em 0.5em;
+  border-bottom: 1px solid var(--color-rule);
+  background: var(--color-paper-2);
+}
+.g-code pre {
+  margin: 0;
+  padding: 1em 1.1em;
+  overflow-x: auto;
+}
+.g-code code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  line-height: 1.65;
+  color: var(--color-ink);
+  white-space: pre;
+}
+
+/* 복사 버튼: JS가 각 pre 뒤에 붙인다 (CSP상 외부 스크립트만 허용) */
+.g-copy {
+  position: absolute;
+  right: 0.6em;
+  top: 0.45em;
+  font-family: var(--font-mono);
+  font-size: 0.72em;
+  color: var(--color-ink-2);
+  background: var(--color-paper-2);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-sm);
+  padding: 0.25em 0.7em;
+  cursor: pointer;
+  transition: border-color var(--dur-short) var(--ease-out), color var(--dur-short) var(--ease-out);
+}
+.g-copy:hover { border-color: var(--color-accent); color: var(--color-accent); }
+.g-copy:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 1px; }
+.g-code { position: relative; }
+
+/* ── 표 ────────────────────────────────────────────────────── */
+.g-tablewrap { overflow-x: auto; margin: 0 0 var(--rhythm); }
+.g-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92em;
+}
+.g-table caption {
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 0.78em;
+  color: var(--color-muted);
+  padding-bottom: 0.5em;
+}
+.g-table th, .g-table td {
+  text-align: left;
+  padding: 0.6em 0.8em;
+  border-bottom: 1px solid var(--color-rule);
+  vertical-align: top;
+}
+.g-table th {
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: var(--color-ink-2);
+  white-space: nowrap;
+}
+.g-table td:first-child { white-space: nowrap; }
+.g-table code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+}
+
+/* ── 넓은 화면에서 코드가 히어로 옆으로 새지 않게 ──────────── */
+@media (min-width: 60em) {
+  .g-section { max-width: 56rem; }
+}

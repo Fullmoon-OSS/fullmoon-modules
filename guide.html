@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>봇 모듈 가이드 ║ Full Moon Modules — 당신의 커맨드를 풀문 봇 안에</title>
+<meta name="description" content="풀문 디스코드 봇에 슬래시 커맨드·버튼·주기 작업을 붙이는 공식 가이드예요. 파일 하나, export 셋, 운영자 심사 한 번으로 봇 안에서 도는 모듈이 됩니다.">
+<meta name="color-scheme" content="dark">
+<link rel="canonical" href="https://modules.fullmoon.ink/guide.html">
+<meta property="og:title" content="봇 모듈 가이드 ║ Full Moon Modules">
+<meta property="og:description" content="파일 하나, export 셋, 심사 한 번. 풀문 디스코드 봇 안에서 도는 커맨드 모듈을 만들어요.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://modules.fullmoon.ink/guide.html">
+<meta property="og:image" content="https://fullmoon.ink/assets/img/og-banner.png">
+<meta name="theme-color" content="#0d1226">
+<link rel="icon" type="image/png" href="assets/img/guild-icon.png">
+<link rel="preload" href="assets/fonts/plex-sans-kr-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/hahmlet-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/fonts.css">
+<link rel="stylesheet" href="assets/css/modules.css">
+<link rel="stylesheet" href="assets/css/guide.css">
+<script src="assets/js/guide.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+
+<header class="nav">
+  <nav class="nav__inner" aria-label="주요 메뉴">
+    <a class="brand" href="https://fullmoon.ink/">
+      <svg class="moon" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+        <circle cx="16" cy="16" r="15" fill="var(--color-moon-face)"/>
+        <ellipse cx="11" cy="11.5" rx="4.6" ry="3.9" fill="var(--color-moon-mare)"/>
+        <ellipse cx="21.5" cy="18" rx="3.4" ry="4.4" fill="var(--color-moon-mare)"/>
+        <ellipse cx="14" cy="23" rx="2.6" ry="2" fill="var(--color-moon-mare)"/>
+        <circle cx="23" cy="9.5" r="1.5" fill="var(--color-moon-mare)"/>
+      </svg>
+      <span class="brand__name">풀문</span>
+      <span class="brand__latin">Modules</span>
+    </a>
+    <div class="nav__links">
+      <a class="nav__link" href="./">카탈로그</a>
+      <a class="nav__link" href="https://github.com/Fullmoon-OSS/coin-bridge-modules">모듈 저장소</a>
+      <a class="nav__link" href="https://github.com/Fullmoon-OSS/fullmoon-sdk">SDK</a>
+    </div>
+    <div class="nav__end">
+      <a class="nav__cta" href="https://github.com/Fullmoon-OSS/coin-bridge-modules/issues/new/choose">모듈 제출하기</a>
+    </div>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="hero" aria-labelledby="hero-title">
+    <h1 class="hero__display" id="hero-title">당신의 커맨드를<br>풀문 봇 안에 붙이세요</h1>
+    <p class="hero__lede">
+      풀문 디스코드 봇은 외부 개발자의 모듈을 직접 실행해요. 슬래시 커맨드 한 개에서
+      버튼 인터랙션과 주기 작업까지 — 파일 하나의 export 셋이면 충분해요.
+      운영자가 한 줄씩 심사하고 나면, 봇은 재시작조차 없이 모듈을 받아들여요.
+    </p>
+    <div class="g-chips">
+      <a class="chip" href="https://github.com/Fullmoon-OSS/coin-bridge-modules">
+        <span class="chip__label">모듈 저장소</span>
+        <span class="chip__addr">Fullmoon-OSS/coin-bridge-modules</span>
+      </a>
+      <a class="chip" href="https://github.com/Fullmoon-OSS/coin-bridge-modules/blob/main/MODULE_API.md">
+        <span class="chip__label">API 계약</span>
+        <span class="chip__addr">MODULE_API.md</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="g-section" aria-labelledby="can-title">
+    <h2 class="g-title" id="can-title">무엇을 붙일 수 있어요</h2>
+    <div class="g-cards">
+      <article class="g-card">
+        <h3>슬래시 커맨드</h3>
+        <p><code>execute(interaction, ctx)</code> 하나로 완성되는 기본형이에요. 옵션은
+        25개까지, 한글 이름도 그대로 돼요.</p>
+      </article>
+      <article class="g-card">
+        <h3>버튼 인터랙션</h3>
+        <p>모듈이 렌더링한 버튼의 클릭이 <code>onButton</code>으로 돌아와요. customId는
+        <code>ctx.componentId()</code>가 모듈 전용 네임스페이스로 만들어줘요.</p>
+      </article>
+      <article class="g-card">
+        <h3>주기 작업</h3>
+        <p><code>schedules</code>에 간격과 함수를 선언하면 봇이 살아 있는 동안 주기적으로
+        실행돼요. 최소 5분, 모듈당 2개까지.</p>
+      </article>
+      <article class="g-card">
+        <h3>원장 읽기</h3>
+        <p><code>ctx.economy</code>로 잔액·순위·거래·이벤트·카지노 통계를 읽어요.
+        economy-api와 같은 감사된 SELECT만 제공되고, 쓰기 경로는 존재하지 않아요.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="g-section" aria-labelledby="skeleton-title">
+    <h2 class="g-title" id="skeleton-title">모듈의 기본 골격</h2>
+    <p class="g-lede">파일 하나에 named export 세 개. 이게 전부예요. 완성된 모듈은
+    저장소의 <a href="https://github.com/Fullmoon-OSS/coin-bridge-modules/blob/main/modules/dice-fortune.mjs">dice-fortune.mjs</a>에서 볼 수 있어요.</p>
+    <figure class="g-code">
+      <figcaption>modules/my-fortune.mjs</figcaption>
+      <pre><code>export const meta = { author: '닉네임', version: '1.0.0' };
+
+export const command = {
+  name: '운세',                          // 소문자·숫자·한글 1~32자
+  description: '오늘의 운세를 봐요',       // 1~100자
+  options: [],
+};
+
+export async function execute(interaction, ctx) {
+  await ctx.reply(`🔮 ${ctx.user.displayName}님, 오늘은 무리하지 말아요.`);
+}</code></pre>
+    </figure>
+  </section>
+
+  <section class="g-section" aria-labelledby="econ-title">
+    <h2 class="g-title" id="econ-title">원장을 읽어요 — ctx.economy</h2>
+    <p class="g-lede">계정 id를 생략하면 커맨드를 호출한 유저가 기본값이에요.
+    범위 밖 값은 에러가 아니라 경계값으로 조정돼요.</p>
+    <figure class="g-code">
+      <figcaption>순위 커맨드 예시</figcaption>
+      <pre><code>export async function execute(interaction, ctx) {
+  const w = await ctx.economy.wallet();
+  if (!w) return ctx.reply('먼저 /연동코드로 계정을 만들어 주세요.');
+  await ctx.reply(`**${ctx.user.displayName}님** — ${w.balance.toLocaleString('ko-KR')}원 (서버 ${w.rank}위)`);
+}</code></pre>
+    </figure>
+    <div class="g-tablewrap">
+      <table class="g-table">
+        <caption>ctx.economy 메서드</caption>
+        <thead><tr><th scope="col">메서드</th><th scope="col">반환</th><th scope="col">설명</th></tr></thead>
+        <tbody>
+          <tr><td><code>wallet(id?)</code></td><td>잔액 + 서버 순위</td><td>계정이 없으면 null</td></tr>
+          <tr><td><code>transactions(id?, {limit, before})</code></td><td>거래 페이지 + 커서</td><td>최신순, limit 1~50</td></tr>
+          <tr><td><code>leaderboard(limit?)</code></td><td>상위권 목록</td><td>1~50명</td></tr>
+          <tr><td><code>events()</code></td><td>진행 중 이벤트</td><td>최대 25개</td></tr>
+          <tr><td><code>guilds()</code></td><td>길드 + 기금 + 인원</td><td>기금 순, 최대 25개</td></tr>
+          <tr><td><code>casinoToday()</code></td><td>오늘(UTC) 게임별 집계</td><td>wagered / paidOut / netBurn</td></tr>
+          <tr><td><code>casinoHistory(days?)</code></td><td>일별 집계</td><td>1~90일</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="g-section" aria-labelledby="hooks-title">
+    <h2 class="g-title" id="hooks-title">선택 훅 — 버튼과 스케줄</h2>
+    <p class="g-lede">필요할 때만 export하면 돼요. 없으면 무시돼요.</p>
+
+    <h3 class="g-sub">버튼: onButton</h3>
+    <p class="g-lede">customId는 반드시 <code>ctx.componentId(action)</code>로 만드세요 —
+    <code>cm:커맨드이름:action</code> 네임스페이스로 클릭이 이 모듈로만 돌아와요.
+    3초 안에 <code>update()</code>·<code>reply()</code>·<code>deferUpdate()</code> 중 하나를
+    호출해야 해요.</p>
+    <figure class="g-code">
+      <figcaption>버튼 달기 + 클릭 처리</figcaption>
+      <pre><code>export async function execute(interaction, ctx) {
+  await ctx.reply({
+    content: '주사위를 굴렸어요!',
+    components: [{ type: 1, components: [{
+      type: 2, style: 1,
+      customId: ctx.componentId('다시'),   // ctx가 네임스페이스를 보장해요
+      label: '한 번 더',
+    }] }],
+  });
+}
+
+export async function onButton(interaction, ctx) {
+  await interaction.update({ content: `다시 굴려서 ${1 + Math.floor(Math.random() * 6)}이 나왔어요!` });
+}</code></pre>
+    </figure>
+
+    <h3 class="g-sub">스케줄: schedules</h3>
+    <p class="g-lede">봇이 살아 있는 동안 주기적으로 도는 타이머예요. 모듈을 고치면
+    재시작 없이 새 타이머로 교체돼요.</p>
+    <figure class="g-code">
+      <figcaption>30분마다 랭킹 요약 보내기</figcaption>
+      <pre><code>export const schedules = [{
+  everyMinutes: 30,   // 5 이상의 정수, 모듈당 최대 2개
+  run: async (tools) =&gt; {
+    const top = await tools.economy.leaderboard(3);
+    await tools.send('채널ID', `현재 1위: ${top[0]?.mcUsername ?? '없음'}`);
+  },
+}];</code></pre>
+    </figure>
+    <p class="g-note"><code>tools.send</code>는 텍스트 채널 전용이고, 멘션은 유저 멘션만
+    허용돼요(@everyone·역할 멘션은 봇이 걸러줘요). 내용은 2000자로 잘려요.</p>
+  </section>
+
+  <section class="g-section" aria-labelledby="ship-title">
+    <h2 class="g-title" id="ship-title">제출은 이렇게 해요</h2>
+    <ol class="howto__steps">
+      <li><span class="step__n"></span><div class="step__body"><strong>만들어요</strong> —
+        저장소의 <a href="https://github.com/Fullmoon-OSS/coin-bridge-modules/tree/main/template">template/</a>에서
+        골격을 복사하거나 위 예시를 고쳐 써요. 파일은 500줄 이하로 유지해 주세요.</div></li>
+      <li><span class="step__n"></span><div class="step__body"><strong>보내요</strong> — git이 편하면
+        <a href="https://github.com/Fullmoon-OSS/coin-bridge-modules/pulls">PR</a>,
+        아니면 <a href="https://github.com/Fullmoon-OSS/coin-bridge-modules/issues/new/choose">이슈 템플릿</a>으로
+        코드를 붙여넣어도 돼요(운영자가 대신 반영해요).</div></li>
+      <li><span class="step__n"></span><div class="step__body"><strong>심사를 받아요</strong> —
+        운영자가 <a href="https://github.com/Fullmoon-OSS/coin-bridge-modules/blob/main/REVIEW.md">REVIEW.md
+        체크리스트</a>대로 한 줄씩 읽어요. 모듈은 봇 프로세스 안에서 실행되기 때문에, 이
+        심사가 유일한 보안 경계예요.</div></li>
+      <li><span class="step__n"></span><div class="step__body"><strong>활성화돼요</strong> —
+        머지되면 운영자가 모듈을 봇에 적재하고, 목록에서 활성화해요. 이후 수정은
+        재시작 없이 자동으로 다시 로드돼요.</div></li>
+    </ol>
+  </section>
+
+  <section class="g-section" aria-labelledby="rules-title">
+    <h2 class="g-title" id="rules-title">지켜야 할 것들</h2>
+    <p class="g-lede">대부분은 로더와 심사가 막아주지만, 처음부터 알면 수정 없이 통과해요.</p>
+    <div class="g-tablewrap">
+      <table class="g-table">
+        <tbody>
+          <tr><td>import는 <code>discord.js</code>와 <code>node:</code> 빌트인만</td><td>서드파티 패키지는 거절돼요</td></tr>
+          <tr><td><code>eval</code>·<code>new Function</code>·동적 <code>import(변수)</code> 금지</td><td>난독화·minified 코드도 마찬가지예요</td></tr>
+          <tr><td><code>fetch</code>·<code>child_process</code>·<code>process.env</code> 접근 금지</td><td>외부 호출이 필요하면 심사에서 상의해요</td></tr>
+          <tr><td>원장 쓰기 금지</td><td>읽기는 <code>ctx.economy</code>로만 — 자체 SQL은 불가해요</td></tr>
+          <tr><td>커맨드·옵션 이름은 소문자·숫자·한글</td><td>대문자(라틴 포함 모든 문자)는 등록이 거부돼요</td></tr>
+          <tr><td><code>ctx.economy</code> 대량 반복 호출 자제</td><td>원장 쿼리는 같은 DB를 읽어요</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <p class="foot__line">같은 원장을,<br>같은 정의로 읽어요.</p>
+  <div class="foot__meta">
+    <span class="foot__mark">
+      <svg class="moon" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+        <circle cx="16" cy="16" r="15" fill="var(--color-moon-face)"/>
+        <ellipse cx="11" cy="11.5" rx="4.6" ry="3.9" fill="var(--color-moon-mare)"/>
+        <ellipse cx="21.5" cy="18" rx="3.4" ry="4.4" fill="var(--color-moon-mare)"/>
+        <ellipse cx="14" cy="23" rx="2.6" ry="2" fill="var(--color-moon-mare)"/>
+        <circle cx="23" cy="9.5" r="1.5" fill="var(--color-moon-mare)"/>
+      </svg>
+      풀문 ║ Full Moon
+    </span>
+    <span><a href="./">카탈로그</a> · <a href="https://github.com/Fullmoon-OSS/coin-bridge-modules">모듈 저장소</a> · <a href="https://fullmoon.ink/">fullmoon.ink</a></span>
+    <span>MIT</span>
+  </div>
+</footer>
+</body>
+</html>
