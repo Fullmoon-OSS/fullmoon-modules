@@ -35,7 +35,7 @@ Manners: poll at 5s or slower; back off on 429; no traffic floods.
 
 1. Ask the Fullmoon Discord operators for a bearer key (name your bot). Keys
    are 32+ random chars, unscoped — read access is the only power.
-2. Copy economyClient.js from https://github.com/Fullmoon-OSS/fullmoon-sdk
+2. Copy economyClient.js from https://github.com/fullmoon-network/fullmoon-sdk
    into your project (zero dependencies, Node 18+, ESM).
 3. Set ECONOMY_API_KEY. Default base URL: https://api.fullmoon.ink/economy
 4. First read:
@@ -122,7 +122,7 @@ GET /v1/casino/history?days=30                    (days ≤ 90)
   Per-day casino burn history. netBurn >= 0 = healthy (value destroyed).
 
 Machine-readable contract: OpenAPI 3.1 at
-https://github.com/Fullmoon-OSS/fullmoon-economy-api/blob/main/openapi.yaml
+https://github.com/fullmoon-network/fullmoon-economy-api/blob/main/openapi.yaml
 
 ## 5. Error model (client behavior contract)
 
@@ -155,9 +155,9 @@ from the SDK repo live — a merged PR appears on the site with no redeploy.
 
 1. Check the 3 iron rules (section 2) — they are keeping conditions.
 2. Add an entry to
-   https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/registry/modules.json
+   https://github.com/fullmoon-network/fullmoon-sdk/blob/main/registry/modules.json
    following
-   https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/registry/modules.schema.json
+   https://github.com/fullmoon-network/fullmoon-sdk/blob/main/registry/modules.schema.json
 
    Entry shape:
    {
@@ -174,7 +174,7 @@ from the SDK repo live — a merged PR appears on the site with no redeploy.
 Two ways to submit — pick whichever is easier:
 
 - **No git needed**: open a registration issue at
-  https://github.com/Fullmoon-OSS/fullmoon-sdk/issues/new?template=module-registration.yml
+  https://github.com/fullmoon-network/fullmoon-sdk/issues/new?template=module-registration.yml
   with the fields below; the operator adds the entry for you.
 - **PR**: fork fullmoon-sdk, add the entry to registry/modules.json
   (CI validates it), open the PR.
@@ -200,11 +200,11 @@ Discord operators directly.
 
 ## 10. Repo map
 
-- https://github.com/Fullmoon-OSS/fullmoon-sdk — official client + examples + registry (MIT)
-- https://github.com/Fullmoon-OSS/fullmoon-economy-api — API server source (MIT); src/vocabulary/ is a synced copy of the operator bot's ledger vocabulary — edit the bot first, sync byte-for-byte
-- https://github.com/Fullmoon-OSS/fullmoon-modules — this site (MIT)
-- https://github.com/Fullmoon-OSS/fullmoon-docs — guides + policies (MIT)
-- https://github.com/Fullmoon-OSS/fullmoon-client — Minecraft client (GPL-3.0)
+- https://github.com/fullmoon-network/fullmoon-sdk — official client + examples + registry (MIT)
+- https://github.com/fullmoon-network/fullmoon-economy-api — API server source (MIT); src/vocabulary/ is a synced copy of the operator bot's ledger vocabulary — edit the bot first, sync byte-for-byte
+- https://github.com/fullmoon-network/fullmoon-modules — this site (MIT)
+- https://github.com/fullmoon-network/fullmoon-docs — guides + policies (MIT)
+- https://github.com/fullmoon-network/fullmoon-client — Minecraft client (GPL-3.0)
 - Public API: https://api.fullmoon.ink/economy — community site: https://fullmoon.ink
 
 ## 11. Bot modules (run code inside the Fullmoon bot)
@@ -213,4 +213,4 @@ Beyond the HTTP API, the Fullmoon Discord bot itself runs operator-reviewed comm
 
 ctx.economy exposes the same audited read-only ledger queries as this API — wallet (balance + rank), transactions (before-cursor pages), leaderboard, events, guilds, casinoToday, casinoHistory — clamped and parameterized, SELECT-only. tools.send (schedules) is text-channel-only, 2000-char capped, user-mentions-only. There is no write path anywhere in the module surface; a feature that needs a ledger write is a bot/operator feature, not a module.
 
-Trust model: modules run in-process, so the operator's line-by-line review is the security boundary. Broken or out-of-contract modules are skipped at load and can never take the bot down. Guide: https://modules.fullmoon.ink/guide.html — contract: https://github.com/Fullmoon-OSS/coin-bridge-modules/blob/main/MODULE_API.md — submit: PR or issue at https://github.com/Fullmoon-OSS/coin-bridge-modules.
+Trust model: modules run in-process, so the operator's line-by-line review is the security boundary. Broken or out-of-contract modules are skipped at load and can never take the bot down. Guide: https://modules.fullmoon.ink/guide.html — contract: https://github.com/fullmoon-network/coin-bridge-modules/blob/main/MODULE_API.md — submit: PR or issue at https://github.com/fullmoon-network/coin-bridge-modules.

@@ -18,4 +18,4 @@
   문자열을 escape하고 https 링크만 허용해요.
 - 경제 API는 읽기 전용이라 유출 가능한 쓰기 권한이 없어요 (키 = 읽기).
 
-자세한 정책: [fullmoon-docs/docs/policies.md](https://github.com/Fullmoon-OSS/fullmoon-docs/blob/main/docs/policies.md)
+자세한 정책: [fullmoon-docs/docs/policies.md](https://github.com/fullmoon-network/fullmoon-docs/blob/main/docs/policies.md)

@@ -1,6 +1,6 @@
 // modules.fullmoon.ink — renders the module catalog.
 //
-// Data source: the registry JSON in Fullmoon-OSS/fullmoon-sdk (single source
+// Data source: the registry JSON in fullmoon-network/fullmoon-sdk (single source
 // of truth). The page is static, so the catalog updates the moment a
 // registration PR merges — no rebuild, no deploy. raw.githubusercontent.com
 // sends CORS `*`, so the browser fetches it directly.
@@ -24,7 +24,7 @@
   } catch { /* garbage query value -> fall through to production registry */ }
   const REGISTRY_URL =
     overrideUrl ??
-    'https://raw.githubusercontent.com/Fullmoon-OSS/fullmoon-sdk/main/registry/modules.json';
+    'https://raw.githubusercontent.com/fullmoon-network/fullmoon-sdk/main/registry/modules.json';
 
   const TYPES = {
     bot: '봇',
@@ -88,7 +88,7 @@
       grid.innerHTML = `
         <p class="state">아직 ${what}등록이 없어요.
         첫 번째 주인공이 되어보세요 —
-        <a href="https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/MODULES.md">등록 절차</a>로 갈 수 있어요.</p>`;
+        <a href="https://github.com/fullmoon-network/fullmoon-sdk/blob/main/MODULES.md">등록 절차</a>로 갈 수 있어요.</p>`;
     } else {
       grid.innerHTML = list.map(cardHtml).join('');
     }

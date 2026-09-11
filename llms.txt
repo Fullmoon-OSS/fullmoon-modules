@@ -9,18 +9,18 @@
 
 ## Docs
 
-- [Getting started (5 min)](https://github.com/Fullmoon-OSS/fullmoon-docs/blob/main/docs/getting-started.md): key request → copy the client → first read. The shortest path to a working integration.
-- [Policies](https://github.com/Fullmoon-OSS/fullmoon-docs/blob/main/docs/policies.md): why the API is read-only (2026-07-12 decision), the 3 iron rules, key issuance/revocation, rate limits, security contact.
-- [OpenAPI 3.1 spec](https://github.com/Fullmoon-OSS/fullmoon-economy-api/blob/main/openapi.yaml): machine-readable contract for every endpoint, response shape, and error semantics. Authoritative.
-- [SDK client (single file)](https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/economyClient.js): zero-dependency, Node 18+, ESM. Copy-paste it; this one file is the whole SDK.
-- [SDK README](https://github.com/Fullmoon-OSS/fullmoon-sdk): usage, 3 iron rules, exception model, examples.
-- [API server source](https://github.com/Fullmoon-OSS/fullmoon-economy-api): the read-only server (src/server.js is the authoritative implementation).
+- [Getting started (5 min)](https://github.com/fullmoon-network/fullmoon-docs/blob/main/docs/getting-started.md): key request → copy the client → first read. The shortest path to a working integration.
+- [Policies](https://github.com/fullmoon-network/fullmoon-docs/blob/main/docs/policies.md): why the API is read-only (2026-07-12 decision), the 3 iron rules, key issuance/revocation, rate limits, security contact.
+- [OpenAPI 3.1 spec](https://github.com/fullmoon-network/fullmoon-economy-api/blob/main/openapi.yaml): machine-readable contract for every endpoint, response shape, and error semantics. Authoritative.
+- [SDK client (single file)](https://github.com/fullmoon-network/fullmoon-sdk/blob/main/economyClient.js): zero-dependency, Node 18+, ESM. Copy-paste it; this one file is the whole SDK.
+- [SDK README](https://github.com/fullmoon-network/fullmoon-sdk): usage, 3 iron rules, exception model, examples.
+- [API server source](https://github.com/fullmoon-network/fullmoon-economy-api): the read-only server (src/server.js is the authoritative implementation).
 
 ## Data
 
-- [Module catalog JSON](https://raw.githubusercontent.com/Fullmoon-OSS/fullmoon-sdk/main/registry/modules.json): the data this module site renders live — merged registration PRs appear here with no redeploy.
-- [Registry JSON Schema](https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/registry/modules.schema.json): contract for catalog entries (validate before opening a PR).
-- [MODULES.md](https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/MODULES.md): how to register a community module (issue form or PR - the operator adds no-git submissions for you).
+- [Module catalog JSON](https://raw.githubusercontent.com/fullmoon-network/fullmoon-sdk/main/registry/modules.json): the data this module site renders live — merged registration PRs appear here with no redeploy.
+- [Registry JSON Schema](https://github.com/fullmoon-network/fullmoon-sdk/blob/main/registry/modules.schema.json): contract for catalog entries (validate before opening a PR).
+- [MODULES.md](https://github.com/fullmoon-network/fullmoon-sdk/blob/main/MODULES.md): how to register a community module (issue form or PR - the operator adds no-git submissions for you).
 - [Bot module guide](https://modules.fullmoon.ink/guide.html): attach slash commands, buttons, and schedules to the Fullmoon Discord bot itself - one .mjs file, operator-reviewed, ctx.economy for read-only ledger access.
 
 ## Optional

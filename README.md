@@ -14,7 +14,7 @@ SDK·공유 경제 API 위에 만들어진 봇·대시보드·도구의 공식 �
         modules.fullmoon.ink — 병합 즉시 반영, 빌드·배포 불필요
 ```
 
-- 데이터 원본은 [fullmoon-sdk의 registry/modules.json](https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/registry/modules.json)
+- 데이터 원본은 [fullmoon-sdk의 registry/modules.json](https://github.com/fullmoon-network/fullmoon-sdk/blob/main/registry/modules.json)
   하나예요. 이 레포에는 데이터 카피가 없어요.
 - 사이트는 정적이에요(index.html + CSS/JS). 서버나 빌드 과정이 없어서, 카탈로그가
   바뀌어도 다시 배포할 필요가 없어요.
@@ -57,14 +57,14 @@ http://127.0.0.1:8080/?registry=http://127.0.0.1:8080/test-registry.json
   한 페이지로: 퀵스타트, 모든 엔드포인트 응답 형태, 에러 모델, 등록 절차
 
 사람·LLM 공용 기계 명세는 fullmoon-economy-api의
-[`openapi.yaml`](https://github.com/Fullmoon-OSS/fullmoon-economy-api/blob/main/openapi.yaml)과
-fullmoon-sdk의 [`modules.schema.json`](https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/registry/modules.schema.json)이에요.
+[`openapi.yaml`](https://github.com/fullmoon-network/fullmoon-economy-api/blob/main/openapi.yaml)과
+fullmoon-sdk의 [`modules.schema.json`](https://github.com/fullmoon-network/fullmoon-sdk/blob/main/registry/modules.schema.json)이에요.
 각 레포의 `AGENTS.md`가 에이전트 기여자용 불변식을 요약해요.
 
 ## 등록
 
 이 사이트에 직접 등록하지는 않아요. 등록 절차는
-[fullmoon-sdk의 MODULES.md](https://github.com/Fullmoon-OSS/fullmoon-sdk/blob/main/MODULES.md)를
+[fullmoon-sdk의 MODULES.md](https://github.com/fullmoon-network/fullmoon-sdk/blob/main/MODULES.md)를
 따라 주세요.
 
 ## 배포 (운영자용)
